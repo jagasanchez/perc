@@ -1,0 +1,3 @@
+/Users/garciaj/Documents/proyectos/github/perc/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/Users/garciaj/Documents/proyectos/github/perc/cmake-build-debug/CMakeFiles/edit_cache.dir
+/Users/garciaj/Documents/proyectos/github/perc/cmake-build-debug/CMakeFiles/perc.dir
