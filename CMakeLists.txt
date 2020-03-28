@@ -3,4 +3,4 @@ project(perc C)
 
 set(CMAKE_C_STANDARD 99)
 
-add_executable(perc main.c)
+add_executable(perc src/main.c)
