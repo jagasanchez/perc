@@ -26,6 +26,3 @@ El ejecutable mostrará un resultado como:
 ```
 0.500000	0.003808	1	474	124465
 ```
-
-## Versión de 3 Mayo 2000 (v1.0.1)
-Esta fue la primera versión que tengo disponible en código impreso.
