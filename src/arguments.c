@@ -5,8 +5,8 @@
 #include <stdio.h>
 
 typedef struct Arguments {
-  unsigned latticeSize;
-  double probability;
+  unsigned latticeSize;  //!< Tamaño de la red
+  double probability;    //!< Probabilidad de llenado
 } Arguments;
 
 void arguments_destroy(Arguments *arguments) {
@@ -37,10 +37,10 @@ Arguments *arguments_read(const int argc, const char *argv[]) {
   return arguments;
 }
 
-unsigned arguments_latticeSize(const Arguments *arguments) {
+unsigned arguments_getLatticeSize(const Arguments *arguments) {
   return arguments->latticeSize;
 }
 
-double arguments_probability(const Arguments *arguments) {
+double arguments_getProbability(const Arguments *arguments) {
   return arguments->probability;
 }

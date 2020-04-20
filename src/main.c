@@ -1,30 +1,57 @@
+/**
+ * @file
+ * @copyright (c) 2020 - José A. García
+ */
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
-//#include "include/arguments.h"
 
+//! Indicador de celda ocupada
 #define OCUPADO 1
+//! Indicador de celda desocupada
 #define VACIO 0
+//! Indicador de celda visitada
 #define SI 1
+//! Indicador de celda no visitada
 #define NO 0
+//! Tamaño de red
 #define N 500
 
 /*
  * Prototipos
  */
+//! Generador de números pseudo-aleatorios
 float ran(void);
 
+/**
+ *
+ * @param[in] i
+ * @param[in] j
+ * @return
+ */
 int Contador(unsigned int i, unsigned int j);
 
+/**
+ *
+ * @param[in] nodo
+ * @param[in] status
+ * @return
+ */
 char Check(char nodo, char status);
 
 /*
  * Variables globales
  */
-char Nodos[N + 1][N + 1];   /* Sistema percolante */
-char Status[N + 1][N + 1];  /* Sistema visitado */
-int Cluster[N * N + 1];     /* Estadistica de clusteres */
+char Nodos[N + 1][N + 1];   //!< Sistema percolante
+char Status[N + 1][N + 1];  //!< Sistema visitado
+int Cluster[N * N + 1];     //!< Estadistica de clusteres
 
+/**
+ *
+ * @param[in] argc
+ * @param[in] argv
+ * @return
+ */
 int main(int argc, char *argv[]) {
   unsigned i, j;  /* contadores */
   float p;        /* probabilidad inicial */
@@ -32,20 +59,14 @@ int main(int argc, char *argv[]) {
   int Numero;     /* Numero de componentes en cada cluster */
   time_t tiempo;  /* semilla inicial para el generador */
 
-    if (argc < 2) {
-        fprintf(stdout, "\aERROR: la linea de comandos es:\n");
-        fprintf(stdout, "\t$perc <prob>\n");
-        fprintf(stdout, "...saliendo...\n");
-        exit(1);
-    } else {
-        p = atof(argv[1]);
-    }
-//  Arguments *arguments = arguments_read(argc, argv);
-//  if (arguments == NULL) {
-//    exit(1);
-//  }
-//  p = arguments_probability(arguments);
-//  arguments_destroy(arguments);
+  if (argc < 2) {
+    fprintf(stdout, "\aERROR: la linea de comandos es:\n");
+    fprintf(stdout, "\t$perc <prob>\n");
+    fprintf(stdout, "...saliendo...\n");
+    exit(1);
+  } else {
+    p = atof(argv[1]);
+  }
 
   /* Colocamos el sistema */
   srand((unsigned int) time(&tiempo));

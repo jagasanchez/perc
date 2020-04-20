@@ -1,5 +1,6 @@
-/*
- * (c) 2020 - José A. García Sánchez
+/**
+ * @file
+ * @copyright (c) 2020 - José A. García Sánchez
  */
 
 #ifndef PERC_SRC_INCLUDE_ARGUMENTS_H_
@@ -15,6 +16,8 @@ extern "C" {
  * to be used through the program.
  * @{
  */
+
+//! Estructura con los argumentos
 typedef struct Arguments Arguments;
 
 /**
@@ -31,8 +34,19 @@ Arguments *arguments_read(const int argc, char *argv[]);
  */
 void arguments_destroy(Arguments *arguments);
 
-unsigned arguments_latticeSize(const Arguments *arguments);
-double arguments_probability(const Arguments *arguments);
+/**
+ * @brief Returns the lattice size.
+ * @param[in] arguments object containing the read arguments
+ * @return lattice size
+ */
+unsigned arguments_getLatticeSize(const Arguments *arguments);
+
+/**
+ * @brief Returns the filling probability.
+ * @param[in] arguments object containing the read arguments
+ * @return filling probability
+ */
+double arguments_getProbability(const Arguments *arguments);
 
 /**
  * @}
