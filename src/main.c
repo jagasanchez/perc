@@ -5,6 +5,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <time.h>
+#include "include/arguments.h"
 
 //! Indicador de celda ocupada
 #define OCUPADO 1
@@ -59,14 +60,12 @@ int main(int argc, char *argv[]) {
   int Numero;     /* Numero de componentes en cada cluster */
   time_t tiempo;  /* semilla inicial para el generador */
 
-  if (argc < 2) {
-    fprintf(stdout, "\aERROR: la linea de comandos es:\n");
-    fprintf(stdout, "\t$perc <prob>\n");
-    fprintf(stdout, "...saliendo...\n");
+  Arguments *arguments = arguments_read(argc, argv);
+  if (arguments == NULL) {
     exit(1);
-  } else {
-    p = atof(argv[1]);
   }
+  p = arguments_getProbability(arguments);
+  arguments_destroy(arguments);
 
   /* Colocamos el sistema */
   srand((unsigned int) time(&tiempo));
