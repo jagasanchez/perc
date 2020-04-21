@@ -39,7 +39,7 @@ void arguments_destroy(Arguments *arguments);
  * @param[in] arguments object containing the read arguments
  * @return lattice size
  */
-unsigned arguments_getLatticeSize(const Arguments *arguments);
+unsigned long arguments_getLatticeSize(const Arguments *arguments);
 
 /**
  * @brief Returns the filling probability.

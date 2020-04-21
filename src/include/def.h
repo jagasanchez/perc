@@ -8,12 +8,23 @@
 #ifdef __cplusplus
 extern "C" {
 #endif
+/**
+ * @defgroup definitions Definitions
+ * @brief Common definitions.
+ * @{
+ */
 
+//! Boolean enumeration
 enum Boolean {
   FALSE, TRUE
 };
 
+//! Boolean data type
 typedef enum Boolean Boolean;
+
+/**
+ * @}
+ */
 
 #ifdef __cplusplus
 };

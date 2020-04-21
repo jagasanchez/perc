@@ -1,4 +1,5 @@
-/*
+/**
+ * @file
  * (c) 2020 - José A. García Sánchez
  */
 #include <stdlib.h>
@@ -9,23 +10,25 @@
 //! Global variable holding if there is a parsing error
 static Boolean parse_error = FALSE;
 
-//! Peso del argumento para el tamaño
+//! Size argument weight
 #define WEIGHT_SIZE_PARAM 1
-//! Peso del argumento para la probabilidad
+//! Filling probability argument weight
 #define WEIGHT_PROBABILITY_PARAM 2
-//! Valor total de todos los pesos para los argumentos obligatorios
+//! Total mandatory argument weight
 #define TOTAL_WEIGHT_MANDATORY_PARAMS WEIGHT_SIZE_PARAM + WEIGHT_PROBABILITY_PARAM
 
-//! Array con indicadores de procesado de cada argumento obligatorio
+//! Array with parsed mandatory arguments flags
 static Boolean mandatoryArgumentsParsed[] = {FALSE, FALSE};
 
-//! Estructura con los argumentos aceptados
+//! Allowed arguments structure
 typedef struct Arguments {
-  unsigned latticeSize;  //!< Tamaño de la red
-  double probability;    //!< Probabilidad de llenado
+  //! Lattice size
+  unsigned long latticeSize;
+  //! Filling probability
+  double probability;
 } Arguments;
 
-//! Lista de opciones programadas que son aceptadas
+//! Allowed arguments list
 static struct option LONG_OPTIONS[] = {
     {"size", required_argument, 0, 's'},
     {"prob", required_argument, 0, 'p'},
@@ -42,11 +45,15 @@ static void printHelp() {
 }
 
 /**
- * @brief
- * @param[in] value
+ * @brief Parses the value as allowed lattice size.
+ *
+ * The value must be positive integer (i.e., > 0).@n
+ * If the parsing finds an error, it sets the variable @c parse_error
+ * to @c TRUE.
+ * @param[in] value Value to be parsed
  * @return
  */
-static int parseSize(const char *value) {
+int parseSize(const char *value) {
   char *next;
   const long val = strtol(value, &next, 10);
 
@@ -64,11 +71,15 @@ static int parseSize(const char *value) {
 }
 
 /**
- * @brief
- * @param[in] value
+ * @brief Parses the value as allowed filling probability.
+ *
+ * The value must be a float in the range [0, 1].@n
+ * If the parsing finds an error, it sets the variable @c parse_error
+ * to @c TRUE.
+ * @param[in] value Value to be parsed
  * @return
  */
-static double parseProbability(const char *value) {
+double parseProbability(const char *value) {
   char *next;
   const double val = strtod(value, &next);
 
@@ -140,7 +151,7 @@ Arguments *arguments_read(const int argc, char *argv[]) {
   return arguments;
 }
 
-unsigned arguments_getLatticeSize(const Arguments *arguments) {
+unsigned long arguments_getLatticeSize(const Arguments *arguments) {
   return arguments->latticeSize;
 }
 
