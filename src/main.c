@@ -16,7 +16,7 @@
 //! Indicador de celda no visitada
 #define NO 0
 //! Tamaño de red
-#define N 500
+#define N 25
 
 /*
  * Prototipos
@@ -45,7 +45,7 @@ char Check(char nodo, char status);
  */
 char Nodos[N + 1][N + 1];   //!< Sistema percolante
 char Status[N + 1][N + 1];  //!< Sistema visitado
-int Cluster[N * N + 1];     //!< Estadistica de clusteres
+//int Cluster[N * N + 1];     //!< Estadistica de clusteres
 
 /**
  *
@@ -54,8 +54,11 @@ int Cluster[N * N + 1];     //!< Estadistica de clusteres
  * @return
  */
 int main(int argc, char *argv[]) {
-  unsigned i, j;  /* contadores */
-  float p;        /* probabilidad inicial */
+  long size;      //!< tamaño del sistema
+  float prob;     //!< probabilidad inicial
+  long *cluster;  //!< estadística de clústeres
+
+  unsigned long i, j;  /* contadores */
   float rn;       /* random number */
   int Numero;     /* Numero de componentes en cada cluster */
   time_t tiempo;  /* semilla inicial para el generador */
@@ -64,17 +67,20 @@ int main(int argc, char *argv[]) {
   if (arguments == NULL) {
     exit(1);
   }
-  p = arguments_getProbability(arguments);
+  prob = arguments_getProbability(arguments);
+  size = arguments_getLatticeSize(arguments);
   arguments_destroy(arguments);
+
+  cluster = (long *) malloc((size * size + 1) * sizeof(long));
 
   /* Colocamos el sistema */
   srand((unsigned int) time(&tiempo));
 
-  for (i = 1; i <= N; i++) {
-    for (j = 1; j <= N; j++) {
+  for (i = 1; i <= size; i++) {
+    for (j = 1; j <= size; j++) {
       Status[i][j] = NO;
       rn = ran();
-      if (rn <= p) {
+      if (rn <= prob) {
         Nodos[i][j] = OCUPADO;
       } else {
         Nodos[i][j] = VACIO;
@@ -83,43 +89,47 @@ int main(int argc, char *argv[]) {
   }
 
   /* Inicializamos el array de clusteres */
-  for (i = 0; i <= N * N; i++) {
-    Cluster[i] = 0;
+  for (i = 0; i <= size * size; i++) {
+    cluster[i] = 0;
   }
 
   /* Muestra por pantalla la configuracion del sistema percolante */
-//    for (i = 1; i <= N; i++) {
-//        for (j = 1; j <= N; j++) {
-//            fprintf(stdout, "%c ", Nodos[i][j] * 10 + 32);
-//        }
-//        fprintf(stdout, "\n");
-//    }
+  for (i = 1; i <= size; i++) {
+    for (j = 1; j <= size; j++) {
+      fprintf(stdout, "%c ", Nodos[i][j] * 10 + 32);
+    }
+    fprintf(stdout, "\n");
+  }
 
   /* Contamos los clusteres */
-  for (i = 1; i <= N; i++) {
-    for (j = 1; j <= N; j++) {
+  for (i = 1; i <= size; i++) {
+    for (j = 1; j <= size; j++) {
       if (!Status[i][j] && Nodos[i][j]) {
         Status[i][j] = SI;
         Numero = Contador(i, j);
-        Cluster[Numero]++;
+        cluster[Numero]++;
       } else if (!Nodos[i][j]) {
-        Cluster[0]++;
+        cluster[0]++;
       }
     }
   }
 
   /* Sacamos la información de clusteres por pantalla */
-//    for (i = 0; i <= N * N; i++) {
-//        fprintf(stdout, "# de clusteres de dimension %d: %d\n", i, Cluster[i]);
-//    }
+  for (i = 0; i <= size * size; i++) {
+    if (cluster[i] != 0) {
+      fprintf(stdout, "# de clusteres de dimension %5ld: %ld\n", i, cluster[i]);
+    }
+  }
 
-  for (i = N * N; i > 0; --i) {
-    if (Cluster[i]) {
-      fprintf(stdout, "%f\t%f\t%d\t%d\t%d\n", p, (float) i / (N * N - Cluster[0]), Cluster[i], i,
-              N * N - Cluster[0]);
+  for (i = size * size; i > 0; --i) {
+    if (cluster[i]) {
+      fprintf(stdout, "%f\t%f\t%ld\t%ld\t%ld\n", prob, (float) i / (size * size - cluster[0]), cluster[i], i,
+              size * size - cluster[0]);
       break;
     }
   }
+
+  free(cluster);
 
   return 0;
 }
