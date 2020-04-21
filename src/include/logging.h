@@ -1,5 +1,6 @@
-/*
- * (c) 2020 - José A. García Sánchez
+/**
+ * @file
+ * @copyright (c) 2020 - José A. García Sánchez
  */
 
 #ifndef PERC_SRC_INCLUDE_LOGGING_H_
